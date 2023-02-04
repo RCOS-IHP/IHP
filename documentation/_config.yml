@@ -1,0 +1,20 @@
+remote-theme: just-the-docs
+gh_edit_link: true # show or hide edit this page link
+gh_edit_link_text: "Edit this page on GitHub."
+gh_edit_repository: "https://github.com/RCOS-IHP/IHP" # the github URL for your repo
+gh_edit_branch: "main" # the branch that your docs is served from
+gh_edit_source: "documentation" # the source that your files originate from
+gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
+callouts:
+  important:
+    title: Important
+    color: red
+  warning:
+    title: Warning
+    color: yellow
+  info:
+    title: Information
+    color: blue
+  seealso:
+    title: See Also
+    color: green
