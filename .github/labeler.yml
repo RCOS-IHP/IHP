@@ -4,7 +4,7 @@
 "backend":
   - "backend/*"
 
-"documentation"
+"documentation":
   - "documentation/*"
 
 "backend-deps":
