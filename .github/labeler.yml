@@ -1,0 +1,20 @@
+frontend:
+- frontend/*
+
+backend:
+- backend/*
+
+documentation
+- documentation/*
+
+backend-deps:
+- backend/Pipfile*
+
+frontend-deps:
+- frontend/package*.json
+
+github:
+- .github/*
+
+github-actions:
+- .github/workflows/*
