@@ -18,3 +18,7 @@
 
 "github-actions":
   - ".github/workflows/*"
+
+"top-level":
+  - "*"
+  - ".*"
