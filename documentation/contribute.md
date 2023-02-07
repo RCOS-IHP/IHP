@@ -31,5 +31,5 @@ You will need [Python](https://www.python.org/downloads/) installed. Once it's i
 ```bash
 cd backend
 pip install pipenv
-pipenv install
+pipenv sync
 ```
