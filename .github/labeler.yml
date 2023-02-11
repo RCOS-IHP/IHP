@@ -1,23 +1,29 @@
 "frontend":
-  - "frontend/*"
+  - "frontend/**"
 
 "backend":
-  - "backend/*"
+  - "backend/**"
 
 "documentation":
-  - "documentation/*"
+  - "documentation/**"
 
-"backend-deps":
+"backend/deps":
   - "backend/Pipfile*"
+  
+"backend/routes":
+  - "backend/src/routes/**"
+  
+"backend/models":
+  - "backend/src/models.py"
 
-"frontend-deps":
+"frontend/deps":
   - "frontend/package*.json"
 
 "github":
-  - ".github/*"
+  - ".github/**"
 
 "github-actions":
-  - ".github/workflows/*"
+  - ".github/workflows/*.yml"
 
 "top-level":
   - "*"
