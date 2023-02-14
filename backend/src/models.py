@@ -12,6 +12,9 @@ class Choice(pydantic.BaseModel):
     text: str
     choice_id: int
 
+class Answer(pydantic.BaseModel):
+    text: str
+
 class Question(ormar.Model):
     class Meta:
         database = database
@@ -21,4 +24,4 @@ class Question(ormar.Model):
     type: int = ormar.SmallInteger(nullable=False, choices=list(QuestionType))
     question_text: str = ormar.Text(nullable=False)
     choices: list[Choice] | None = ormar.JSON(nullable=True)
-    answer: str | int = ormar.JSON(nullable=False)
+    answer: Answer | int = ormar.JSON(nullable=False)
