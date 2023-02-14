@@ -9,6 +9,7 @@ class QuestionType(enum.Enum):
     select_multiple = 3
 
 class Choice(pydantic.BaseModel):
+    """Multiple choice potential choice"""
     text: str
     choice_id: int
 
