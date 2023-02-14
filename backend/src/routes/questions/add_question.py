@@ -1,21 +1,22 @@
 from fastapi import HTTPException
-from ...models import Choice, QuestionType, Question
+from ...models import Choice, QuestionType, Question, Answer
 from ...main import app
 from pydantic import BaseModel
+from ...utils import convert_to_json
 
 class QuestionRequest(BaseModel):
-    type: int
+    type: QuestionType
     question_text: str
     choices: list[Choice] | None
-    answer: str | int
+    answer: Answer | int
 
 @app.post("/question", response_model=Question)
 async def add_question(question: QuestionRequest):
     question = Question(
-        type=question.type,
+        type=question.type.value,
         question_text=question.question_text,
-        choices=question.choices,
-        answer=question.answer
+        choices=convert_to_json(question.choices),
+        answer=convert_to_json(question.answer)
     )
     if question.type in [QuestionType.mutliple_choice, QuestionType.select_multiple]:
         if question.choices is None:
