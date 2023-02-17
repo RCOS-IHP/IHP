@@ -6,7 +6,10 @@ using vue.js, html, css, and javascript.
 
 ## Design
 
+Modern looking design that relaxes users and is visually pleasing.
 
 ## UI/UX
+
+
 
 
