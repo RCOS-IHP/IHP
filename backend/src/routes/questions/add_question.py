@@ -7,11 +7,11 @@ from ...utils import convert_to_json
 class QuestionRequest(BaseModel):
     type: QuestionType
     question_text: str
-    choices: list[Choice] | None
     answer: Answer | int
 
 @app.post("/question", response_model=Question)
 async def add_question(question: QuestionRequest):
+    """This handles the request to add questions to the database"""
     question = Question(
         type=question.type.value,
         question_text=question.question_text,
