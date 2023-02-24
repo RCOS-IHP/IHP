@@ -28,10 +28,10 @@ async def add_question(question: QuestionRequest):
         if question.answer.text is not None or question.answer.correct_choice_ids is None:
             raise HTTPException(status_code=400, detail="Answer format must be a list of integers")
         if question.type is QuestionType.multiple_choice:
-            if len(question.answer.correct_choice_ideas) != 1:
+            if len(question.answer.correct_choice_ids) != 1:
                 raise HTTPException(status_code=400, detail="Answers list must have a length of 1")
         else:
-            if len(question.answer.correct_choice_ideas) == 1:
+            if len(question.answer.correct_choice_ids) == 1:
                 raise HTTPException(status_code=400, detail="For this question type, there must be multiple correct answers")
 
     await question.save()
