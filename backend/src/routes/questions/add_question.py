@@ -13,7 +13,7 @@ class QuestionRequest(BaseModel):
 @app.post("/question", response_model=Question)
 async def add_question(question: QuestionRequest):
     """This handles the request to add questions to the database"""
-    question = Question(
+    question_model = Question(
         type=question.type.value,
         question_text=question.question_text,
         choices=convert_to_json(question.choices),
@@ -34,5 +34,5 @@ async def add_question(question: QuestionRequest):
             if len(question.answer.correct_choice_ids) == 1:
                 raise HTTPException(status_code=400, detail="For this question type, there must be multiple correct answers")
 
-    await question.save()
-    return question
+    await question_model.save()
+    return question_model
