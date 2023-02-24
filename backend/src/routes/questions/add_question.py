@@ -7,7 +7,7 @@ from ...utils import convert_to_json
 class QuestionRequest(BaseModel):
     type: QuestionType
     question_text: str
-    choices: Choice
+    choices: list[Choice] | None
     answer: Answer | int
 
 @app.post("/question", response_model=Question)
