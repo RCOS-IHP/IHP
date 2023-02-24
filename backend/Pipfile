@@ -15,3 +15,7 @@ httpx = "*"
 
 [requires]
 python_version = "3.11"
+
+[scripts]
+dev = "uvicorn src.main:app --reload"
+test = "pytest"
