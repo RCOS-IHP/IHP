@@ -6,7 +6,7 @@ from .main import database, metadata
 
 class QuestionType(enum.Enum):
     """Question type enum. Determines what type the question is."""
-    mutliple_choice = 1
+    multiple_choice = 1
     short_answer = 2
     select_multiple = 3
 

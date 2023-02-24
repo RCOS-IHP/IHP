@@ -19,7 +19,7 @@ async def add_question(question: QuestionRequest):
         choices=convert_to_json(question.choices),
         answer=convert_to_json(question.answer)
     )
-    if question.type in [QuestionType.mutliple_choice, QuestionType.select_multiple]:
+    if question.type in [QuestionType.multiple_choice, QuestionType.select_multiple]:
         if question.choices is None:
             raise HTTPException(status_code=400, detail="Choices must be provided for multiple choice questions")
         if question.answer not in [choice.choice_id for choice in question.choices]:
