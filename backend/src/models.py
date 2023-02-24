@@ -16,7 +16,8 @@ class Choice(pydantic.BaseModel):
 
 class Answer(pydantic.BaseModel):
     """The answer class, this is what we receive when a answer is sent"""
-    text: str
+    text: str | None = None
+    correct_choice_id: int | None = None
 
 
 class Question(ormar.Model):
@@ -28,5 +29,5 @@ class Question(ormar.Model):
     type: int = ormar.SmallInteger(nullable=False, choices=list(QuestionType))
     question_text: str = ormar.Text(nullable=False)
     choices: list[Choice] | None = ormar.JSON(nullable=True)
-    answer: Answer | int = ormar.JSON(nullable=False)
+    answer: Answer = ormar.JSON(nullable=False)
 
