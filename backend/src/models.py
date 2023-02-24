@@ -9,6 +9,7 @@ class QuestionType(enum.Enum):
     multiple_choice = 1
     short_answer = 2
     select_multiple = 3
+    select_one = 4
 
 class Choice(pydantic.BaseModel):
     text: str
@@ -17,7 +18,7 @@ class Choice(pydantic.BaseModel):
 class Answer(pydantic.BaseModel):
     """The answer class, this is what we receive when a answer is sent"""
     text: str | None = None
-    correct_choice_id: int | None = None
+    correct_choice_ids: list[int] | None = None
 
 
 class Question(ormar.Model):
@@ -25,6 +26,7 @@ class Question(ormar.Model):
     class Meta:
         database = database
         metadata = metadata
+
     id: int = ormar.Integer(primary_key=True)
     type: int = ormar.SmallInteger(nullable=False, choices=list(QuestionType))
     question_text: str = ormar.Text(nullable=False)

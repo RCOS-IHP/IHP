@@ -8,7 +8,7 @@ class QuestionRequest(BaseModel):
     type: QuestionType
     question_text: str
     choices: list[Choice] | None
-    answer: Answer | int
+    answer: Answer
 
 @app.post("/question", response_model=Question)
 async def add_question(question: QuestionRequest):
