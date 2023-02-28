@@ -2,19 +2,12 @@
   
 	import { ref } from 'vue'
 	import { reactive } from 'vue'
-  
 
   let showHeader = ref(true);
   let loginRequired = ref(true);
   
   const headerLinkClass = ['headerLink', 'noselect'];
-  
-  const userInfo = ref({ 
-    name: "Luke", 
-    year: "Freshman",
-    classes: ref([ "Math", "RCOS" ])
-  });
-    
+      
   const headerLinks = ref([
     { id: "homeLink", text: 'Home', click: "", class: headerLinkClass },
     { id: "divider", text: '|', click: "", class: "noselect" },
@@ -36,42 +29,10 @@
       {{ link.text }}
     </div>
   </div>
-  
-  <div :class="['loginContainer']">
-    <div v-if="loginRequired" :id="['loginField']">
-      LOGIN
-    </div>
-    <div v-else>
-      <div>
-        Welcome {{userInfo.name}}!
-      </div>
-      
-      <br>  
-      
-      <div>
-        Year: {{userInfo.year}}
-      </div>
-      
-      <br>
-      <div>
-        Current Classes: 
-      </div>
-      <div v-for="className in userInfo.classes" :key="className">
-				&nbsp;&nbsp;&nbsp;&nbsp;{{ className }}
-      </div>
-      
-    </div>
-  </div>
-  
-  <button @click="loginRequired = !loginRequired;">toggle</button>
+
 </template>
 
 <style>
-  body {
-    background-color: #FFFFFF;
-    margin: 0;
-  }
-  
   .header {
     display: flex;
     flex-direction: row;
@@ -88,16 +49,6 @@
     cursor: pointer; 
   	overflow: hidden;
     white-space: nowrap;
-  }
-  
-  .loginContainer {
-    position: absolute;
-    
-    right: 20px;
-    margin-top: 20px;
-    width: 300px;
-    height: 400px;
-    background-color: #dfe2e0;
   }
   
   .noselect {
