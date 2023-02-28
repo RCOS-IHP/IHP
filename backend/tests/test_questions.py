@@ -57,3 +57,12 @@ class TestQuestions:
         assert json_response["choices"] == [model.dict() for model in choices]
         assert json_response["answer"] == answer
         assert json_response["id"]
+
+    def test_text_answer_in_not_short_answer(self):
+        question_text = "Sample **Question**?"
+        choices = [Choice(text="Choice 1", choice_id=1), Choice(text="Choice 2", choice_id=2), Choice(text="Choice 3", choice_id=3), Choice(text="Choice 4", choice_id=4)]
+        answer = Answer(text="Answer")
+        question_data = QuestionRequest(type=QuestionType.multiple_choice, question_text=question_text, choices=choices, answer=answer)
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json"})
+        assert response.status_code == 400
+        #assert response.detail is "Answer format must be a list of integers"
