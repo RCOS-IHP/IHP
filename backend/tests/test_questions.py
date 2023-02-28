@@ -58,6 +58,22 @@ class TestQuestions:
         assert json_response["answer"] == answer
         assert json_response["id"]
 
+    def test_choices_in_short_answer(self):
+        question_text = "Sample **Question**?"
+        choices = [Choice(text="Choice 1", choice_id=1), Choice(text="Choice 2", choice_id=2), Choice(text="Choice 3", choice_id=3), Choice(text="Choice 4", choice_id=4)]
+        answer = Answer(text="Answer")
+        question_data = QuestionRequest(type=QuestionType.short_answer, question_text=question_text, choices=choices, answer=answer)
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json"})
+        assert response.status_code == 400
+        #assert response.detail is "Short answer questions do not need choices"
+
+    def test_choiceless_choice_question(self):
+        question_text = "Sample **Question**?"
+        answer = Answer(correct_choice_ids=[3])
+        question_data = QuestionRequest(type=QuestionType.multiple_choice, question_text=question_text, choices=None, answer=answer)
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json"})
+        assert response.status_code == 400
+
     def test_text_answer_in_not_short_answer(self):
         question_text = "Sample **Question**?"
         choices = [Choice(text="Choice 1", choice_id=1), Choice(text="Choice 2", choice_id=2), Choice(text="Choice 3", choice_id=3), Choice(text="Choice 4", choice_id=4)]
