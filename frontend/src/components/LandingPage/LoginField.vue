@@ -3,43 +3,40 @@
 	import { reactive } from 'vue'
   
 	let loginRequired = ref(false);
-  	
+  let classesShown = ref(true);
   const userInfo = ref({ 
     name: "Luke", 
     year: "Freshman",
     classes: ref([ "Math", "RCOS", "FoCS" ])
   });
   
-
 </script>
 
 <template>
-  
-	<div :class=" ['loginContainer']">
+	<div :class="['loginContainer']">
     <div v-if="loginRequired" :id="['loginField']">
-      LOGIN
+      First Time User?
+      <button> Sign Up </button>
       
+      Already Have an Account?      
       <button @click="loginRequired = false;">Log In</button>
     </div>
     <div v-else>
       <div>
         Welcome {{userInfo.name}}!
       </div>
-      
-      <br>  
-      
+            
       <div>
-        Year: {{userInfo.year}}
+        {{userInfo.year}}
       </div>
-      
-      <br>
-      <div>
-        Current Classes: 
+        
+      <div class="dropdown">
+        <div class="noselect hover" @click="classesShown = !classesShown;"> Current Classes: </div>
+        <div v-if="classesShown" v-for="className in userInfo.classes" :key="className">
+					<div class="hover" @click="">{{ className }}</div>
+      	</div>
       </div>
-      <div v-for="className in userInfo.classes" :key="className">
-				<li>{{ className }}</li>
-      </div>
-      
+            
       <button @click="loginRequired = true;">Log Out</button>
     </div>
   </div>
@@ -58,11 +55,25 @@
     border-radius: 10px;
   }
   
-  .loginContainer > * {
+  .loginContainer > div {
     margin: 50px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    gap: 30px;
+  }
+  
+  .loginContainer > div > button {
+    height: 50px;
+    background-color: #587D71;
+    border-radius: 5px;
+    border: none;
+    color: #FFFFFF;
+    
+    cursor: pointer;
+  }
+  
+  .hover {
+    cursor: pointer;
   }
   
   .noselect {
@@ -73,4 +84,14 @@
           -ms-user-select: none; /* Internet Explorer/Edge */
               user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
     }
+  
+  .dropdown {
+    border-left: 2px solid #0E1116;
+    padding-left: 5px;
+    margin-left: -5px;
+  }
+  
+  .dropdown > div > div {
+    padding-left: 15px;
+  }
 </style>
