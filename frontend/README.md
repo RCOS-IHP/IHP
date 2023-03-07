@@ -10,6 +10,25 @@ Modern looking design that relaxes users and is visually pleasing.
 
 ## UI/UX
 
+Easy to use interface th
+
+### Landing
+
+The landing page shows viewers some background about our project and general
+information. Directs users to the login page to use and view the rest of the
+website.
+
+### Login
+
+
+
+### Home
+
+### Assignments
+
+### Grades
+
+### Instructor 
 
 
 
