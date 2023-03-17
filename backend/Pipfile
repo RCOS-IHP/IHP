@@ -7,6 +7,7 @@ name = "pypi"
 fastapi = "*"
 pyyaml = "*"
 ormar = {extras = ["orjson", "sqlite"], version = "*"}
+fastapi-pagination = "*"
 
 [dev-packages]
 uvicorn = {extras = ["standard"], version = "*"}

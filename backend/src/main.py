@@ -4,6 +4,7 @@ import databases
 import sqlalchemy
 from fastapi import FastAPI
 from src.config import config
+from fastapi_pagination import add_pagination
 
 import ormar
 
@@ -11,6 +12,7 @@ app = FastAPI()
 metadata = sqlalchemy.MetaData()
 database = databases.Database(config['db'])
 app.state.database = database
+add_pagination(app)
 
 async def make_tables():
     import sqlalchemy
