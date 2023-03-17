@@ -1,5 +1,3 @@
-from typing import List, Optional
-
 import databases
 import sqlalchemy
 from fastapi import FastAPI

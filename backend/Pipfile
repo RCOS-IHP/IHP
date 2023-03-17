@@ -8,6 +8,8 @@ fastapi = "*"
 pyyaml = "*"
 ormar = {extras = ["orjson", "sqlite"], version = "*"}
 fastapi-pagination = "*"
+python-multipart = "*"
+argon2-cffi = "*"
 
 [dev-packages]
 uvicorn = {extras = ["standard"], version = "*"}
