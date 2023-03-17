@@ -9,7 +9,7 @@
   const headerLinkClass = ['headerLink', 'noselect'];
       
   const headerLinks = ref([
-    { id: "homeLink", text: 'Home', click: "link", class: headerLinkClass },
+    { id: "homeLink", text: 'Home', click: "link", to: "/", class: headerLinkClass },
     { id: "divider", text: '|', click: "", class: "noselect" },
     { id: "classLink", text: 'Class', click: "",class: headerLinkClass },
     { id: "divider", text: '|', click: "", class: "noselect" },
@@ -17,7 +17,7 @@
     { id: "divider", text: '|', click: "", class: "noselect" },
     { id: "linkD", text: 'Link D', click: "",class: headerLinkClass },
     { id: "divider", text: '|', click: "", class: "noselect" },
-    { id: "linkE", text: 'Link E', click:"", class: headerLinkClass }
+    { id: "linkE", text: 'Login', click: "link", to:"/login", class: headerLinkClass }
   ]);
   
 </script>
@@ -26,7 +26,7 @@
   
   <div v-if="showHeader" :id="['header']" :class="['header']"> 
     <div v-for="link in headerLinks" :key="link.id" :class="link.class">
-      <router-link v-if="!!link.click">
+      <router-link v-if="link.click == 'link'" :to="link.to">
         {{link.text}}
       </router-link>
       <div v-else>
