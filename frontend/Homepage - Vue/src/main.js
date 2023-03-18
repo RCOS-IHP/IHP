@@ -1,10 +1,12 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import vuetify from './plugins/vuetify'
-import { loadFonts } from './plugins/webfontloader'
+import { createApp } from 'vue';
+import App from './App.vue';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faFacebookF, faTwitter, faLinkedinIn, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-loadFonts()
+library.add(faFacebookF, faTwitter, faLinkedinIn, faYoutube);
 
-createApp(App)
-  .use(vuetify)
-  .mount('#app')
+const app = createApp(App);
+app.component('font-awesome-icon', FontAwesomeIcon);
+app.mount('#app');
+
