@@ -43,6 +43,7 @@ class User(ormar.Model):
     id: int = ormar.Integer(primary_key=True)
     username: str = ormar.String(max_length=100, unique=True, nullable=False)
     email: str = ormar.String(max_length=100, unique=True, nullable=False)
+    email_verified: bool = ormar.Boolean(default=False)
 
 class UserPassword(ormar.Model):
     class Meta:
@@ -52,9 +53,18 @@ class UserPassword(ormar.Model):
     id: int = ormar.Integer(primary_key=True)
     user: User = ormar.ForeignKey(User)
     hashed_password: str = ormar.LargeBinary(max_length=97, represent_as_base64_str=False, nullable=False)
-    salt: str = ormar.String(min_length=16, max_length=16, nullable=False)
 
 class UserTokens(ormar.Model):
+    class Meta:
+        database = database
+        metadata = metadata
+
+    id: int = ormar.Integer(primary_key=True)
+    user: User = ormar.ForeignKey(User)
+    token: str = ormar.String(max_length=100, nullable=False, unique=True)
+    expiry: datetime.datetime = ormar.DateTime(nullable=False)
+
+class EmailVerificationTokens(ormar.Model):
     class Meta:
         database = database
         metadata = metadata
