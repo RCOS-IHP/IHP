@@ -19,6 +19,7 @@ async def add_question(question: QuestionRequest):
         choices=convert_to_json(question.choices),
         answer=convert_to_json(question.answer)
     )
+
     if question.type is QuestionType.short_answer:
         if question.choices is not None:
             raise HTTPException(status_code=400, detail="Short answer questions do not need choices")
@@ -36,3 +37,4 @@ async def add_question(question: QuestionRequest):
 
     await question_model.save()
     return question_model
+
