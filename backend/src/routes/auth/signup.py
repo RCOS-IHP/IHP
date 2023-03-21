@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from ...models import User, UserPassword
 from ...main import app
 from pydantic import BaseModel, Field
-from .auth_common import generate_new_token, Tokens, hasher
+from .auth_common import get_new_token, Tokens, hasher, validate_and_normalize_email
 
 class SignupRequest(BaseModel):
     username: str = Field(min_length=3, max_length=100)
@@ -15,6 +15,8 @@ async def signup(login_info: SignupRequest):
         raise HTTPException(status_code=400, detail="Username already exists.")
     if await User.objects.get_or_none(email=login_info.email):
         raise HTTPException(status_code=400, detail="Email already exists.")
-    new_user = await User.objects.create(username=login_info.username, email=login_info.email)
-    await UserPassword.objects.create(user=new_user, hashed_password=hasher.hash(login_info.password))
-    return await generate_new_token(new_user.id)
+    login_info.email = validate_and_normalize_email(login_info.email)
+    async with User.Meta.database.transaction():
+        new_user = await User.objects.create(username=login_info.username, email=login_info.email)
+        await UserPassword.objects.create(user=new_user, hashed_password=hasher.hash(login_info.password))
+    return await get_new_token(new_user)

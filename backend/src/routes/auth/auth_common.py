@@ -1,10 +1,12 @@
 import secrets
 from fastapi import HTTPException
 from pydantic import BaseModel
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from ...main import app
 from ...models import User, UserTokens
 from argon2 import PasswordHasher
+from email_validator import validate_email, EmailNotValidError
+from collections import defaultdict
 
 hasher = PasswordHasher()
 
@@ -15,19 +17,20 @@ class Tokens(BaseModel):
 class AccessTokenDB:
     def __init__(self):
         self.tokens: dict[str, datetime] = {}
-        self.user_id_token_map: dict[int, list[str]] = {}
+        self.user_id_token_map: defaultdict[int, list[str]] = defaultdict(list)
+        self.token_to_user_id_map: dict[str, int] = {}
 
     def add_token(self, token: str, user_id: int):
         assert token not in self.tokens, "Tried to add duplicate token."
         # Make it so that every token is valid for 1 hour from the time it was created.
-        self.tokens[token] = datetime.now(tz=timezone.utc) + datetime.timedelta(hours=1)
+        self.tokens[token] = datetime.now(tz=timezone.utc) + timedelta(hours=1)
         self.user_id_token_map[user_id].append(token)
 
     def token_valid(self, token: str):
         exists = token in self.tokens
         if exists:
             # If the token exists, checks that there is less than 10 seconds left until it expires.
-            time_valid = datetime.now(tz=timezone.utc) - self.tokens[token] > datetime.timedelta(seconds=10)
+            time_valid = datetime.now(tz=timezone.utc) - self.tokens[token] > timedelta(seconds=10)
             if time_valid:
                 return True
             else:
@@ -45,6 +48,18 @@ class AccessTokenDB:
             self.tokens.pop(token, None)
         self.user_id_token_map.pop(user_id)
 
+    def prune(self):
+        """Prune all expired tokens."""
+        for token, expiry in self.tokens.items():
+            if datetime.now(tz=timezone.utc) - expiry > timedelta(seconds=10):
+                self.tokens.pop(token, None)
+        for user_id, tokens in self.user_id_token_map.items():
+            for token in tokens:
+                if token not in self.tokens:
+                    tokens.remove(token)
+            if len(tokens) == 0:
+                self.user_id_token_map.pop(user_id)
+
 app.state.access_token_db: AccessTokenDB = AccessTokenDB()
 
 def generate_new_token(length: int=32) -> str:
@@ -54,10 +69,10 @@ def generate_new_token(length: int=32) -> str:
     """
     return secrets.token_urlsafe(length)
 
-async def get_new_token(user_id: int | None = None, refresh_token: str | None = None) -> Tokens:
+async def get_new_token(user: User | None = None, refresh_token: str | None = None) -> Tokens:
     """Get a new access token for a user.
 
-    :param user_id: The user id to get a new token for, if no refresh token is provided.
+    :param user: The user to get a new token for, if no refresh token is provided.
     :param refresh_token: The refresh token to get a new access token for.
     :return: The new access token and refresh token.
     """
@@ -66,16 +81,30 @@ async def get_new_token(user_id: int | None = None, refresh_token: str | None = 
         if not refresh_token_obj:
             raise HTTPException(status_code=401, detail="Invalid refresh token.")
         user_id = refresh_token_obj.user.id
-        if datetime.now(tz=timezone.utc) - refresh_token_obj.expiry.astimezone(timezone.utc) < datetime.timedelta(minutes=5):
+        if datetime.now(tz=timezone.utc) - refresh_token_obj.expiry.astimezone(timezone.utc) < timedelta(minutes=5):
             raise HTTPException(status_code=401, detail="Expired refresh token.")
         new_token = generate_new_token()
         app.state.access_token_db.add_token(new_token, user_id)
         return Tokens(access_token=new_token, refresh_token=refresh_token)
     else:
-        if not user_id:
-            raise HTTPException(status_code=400, detail="No user id provided.")
+        if not user:
+            raise ValueError("No user provided.")
+        user_id = user.id
         new_token = generate_new_token()
         new_refresh_token = generate_new_token(length=64)
         app.state.access_token_db.add_token(new_token, user_id)
-        await UserTokens.objects.create(user_id=user_id, token=new_refresh_token, expiry=datetime.now(tz=timezone.utc) + datetime.timedelta(days=30))
-        return Tokens(access_token=new_token, refresh_token=refresh_token)
+        await UserTokens.objects.create(user=user, token=new_refresh_token, expiry=datetime.now(tz=timezone.utc) + timedelta(days=30))
+        return Tokens(access_token=new_token, refresh_token=new_refresh_token)
+    
+def validate_and_normalize_email(email: str) -> str:
+    """Validate and normalize an email.
+
+    :param email: The email to validate and normalize.
+    :return: The normalized email.
+    """
+    try:
+        valid_email = validate_email(email)
+        email = valid_email.email
+    except EmailNotValidError as e:
+        raise HTTPException(status_code=400, detail="Invalid email address.")
+    return email

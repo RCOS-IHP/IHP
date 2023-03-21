@@ -10,6 +10,7 @@ ormar = {extras = ["orjson", "sqlite"], version = "*"}
 fastapi-pagination = "*"
 python-multipart = "*"
 argon2-cffi = "*"
+email-validator = "*"
 
 [dev-packages]
 uvicorn = {extras = ["standard"], version = "*"}
