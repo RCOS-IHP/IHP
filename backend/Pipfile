@@ -16,6 +16,7 @@ email-validator = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 pytest = "*"
 httpx = "*"
+alembic = "*"
 
 [requires]
 python_version = "3.11"
