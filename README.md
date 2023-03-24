@@ -6,3 +6,4 @@ An open source homework tool for professors and students similar to Pearson Mast
 Use `npm run dev` from the frontend folder to run the frontend for development.
 
 From the backend folder, use `pipenv run dev` to run the api, and `pipenv run test` to run the Pytest tests.
+If the correct packages are not installed, run `pipenv sync --dev`.
