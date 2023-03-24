@@ -21,6 +21,16 @@ class Answer(pydantic.BaseModel):
     text: str | None = None
     correct_choice_ids: list[int] | None = None
 
+class User(ormar.Model):
+    class Meta:
+        database = database
+        metadata = metadata
+
+    id: int = ormar.Integer(primary_key=True)
+    username: str = ormar.String(max_length=100, unique=True, nullable=False)
+    email: str = ormar.String(max_length=100, unique=True, nullable=False)
+    email_verified: bool = ormar.Boolean(default=False)
+    created_on: datetime.datetime = ormar.DateTime(default=lambda: datetime.datetime.now(datetime.timezone.utc), timezone=True, nullable=False)
 
 class Question(ormar.Model):
     """The actual question class, basically records the type id and choices"""
@@ -33,17 +43,8 @@ class Question(ormar.Model):
     question_text: str = ormar.Text(nullable=False)
     choices: list[Choice] | None = ormar.JSON(nullable=True)
     answer: Answer = ormar.JSON(nullable=False)
-
-
-class User(ormar.Model):
-    class Meta:
-        database = database
-        metadata = metadata
-
-    id: int = ormar.Integer(primary_key=True)
-    username: str = ormar.String(max_length=100, unique=True, nullable=False)
-    email: str = ormar.String(max_length=100, unique=True, nullable=False)
-    email_verified: bool = ormar.Boolean(default=False)
+    created_on: datetime.datetime = ormar.DateTime(default=lambda: datetime.datetime.now(datetime.timezone.utc), timezone=True, nullable=False)
+    creator: User = ormar.ForeignKey(User, nullable=False)
 
 class UserPassword(ormar.Model):
     class Meta:
@@ -62,6 +63,7 @@ class UserTokens(ormar.Model):
     id: int = ormar.Integer(primary_key=True)
     user: User = ormar.ForeignKey(User)
     token: str = ormar.String(max_length=100, nullable=False, unique=True)
+    created_on: datetime.datetime = ormar.DateTime(default=lambda: datetime.datetime.now(datetime.timezone.utc), timezone=True, nullable=False)
     expiry: datetime.datetime = ormar.DateTime(nullable=False)
 
 class EmailVerificationTokens(ormar.Model):
@@ -72,4 +74,26 @@ class EmailVerificationTokens(ormar.Model):
     id: int = ormar.Integer(primary_key=True)
     user: User = ormar.ForeignKey(User)
     token: str = ormar.String(max_length=100, nullable=False, unique=True)
+    created_on: datetime.datetime = ormar.DateTime(default=lambda: datetime.datetime.now(datetime.timezone.utc), timezone=True, nullable=False)
     expiry: datetime.datetime = ormar.DateTime(nullable=False)
+
+class SignInAuditLog(ormar.Model):
+    class Meta:
+        database = database
+        metadata = metadata
+
+    id: int = ormar.Integer(primary_key=True)
+    user: User = ormar.ForeignKey(User)
+    ip_address: str = ormar.String(max_length=100, nullable=False)
+    created_on: datetime.datetime = ormar.DateTime(default=lambda: datetime.datetime.now(datetime.timezone.utc), timezone=True, nullable=False)
+
+class AuditLog(ormar.Model):
+    class Meta:
+        database = database
+        metadata = metadata
+
+    event_id: int = ormar.BigInteger(primary_key=True)
+    causing_user: User | None = ormar.ForeignKey(User, nullable=True)
+    event_type: str = ormar.String(max_length=100, nullable=False)
+    event_data: dict | None = ormar.JSON(nullable=True)
+    created_on: datetime.datetime = ormar.DateTime(default=lambda: datetime.datetime.now(datetime.timezone.utc), timezone=True, nullable=False)
