@@ -30,6 +30,19 @@ class TestQuestions:
         assert json_response["answer"] == answer
         assert json_response["id"]
 
+    def test_remove_question(self):
+        question_text = "Sample **Question**?"
+        answer = Answer(text="Answer")
+        question_data = QuestionRequest(type=QuestionType.short_answer, question_text=question_text, choices=None, answer=answer)
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json"})
+        json_response = response.json()
+
+        remove_response = client.delete("/question/%d" % json_response["id"])
+        assert remove_response.status_code == 204
+
+        get_response = client.get("/question/%d" % json_response["id"])
+        assert get_response.status_code == 404
+
     def test_add_select_multiple_question(self):
         question_text = "Sample **Question**?"
         choices = [Choice(text="Choice 1", choice_id=1), Choice(text="Choice 2", choice_id=2), Choice(text="Choice 3", choice_id=3), Choice(text="Choice 4", choice_id=4)]
