@@ -1,3 +1,7 @@
+import sys
+import pprint
+pprint.pprint(sys.path)
+
 import databases
 import sqlalchemy
 from fastapi import FastAPI
