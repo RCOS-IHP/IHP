@@ -29,3 +29,4 @@ __pycache__/
 
 config.yml
 test.db
+postgres-data

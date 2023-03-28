@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+    db:
+        image: postgres:15
+        volumes:
+            - ./postgres-data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+        restart: always
+        ports:
+            - "127.0.0.1:5432:5432"
+        healthcheck:
+            test: ["pg_isready", "-h", "localhost", "-p", "5432"]
+            interval: 1m30s
+            timeout: 30s
+            retries: 5
+            start_period: 10s
+    nginx:
+        build: ./frontend
+        ports:
+            - "8067:8067"
+    backend:
+        build: ./backend
+        ports:
+            - "127.0.0.1:8068:8068"
+        depends_on:
+            - db

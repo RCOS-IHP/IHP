@@ -6,17 +6,20 @@ name = "pypi"
 [packages]
 fastapi = "*"
 pyyaml = "*"
-ormar = {extras = ["orjson", "sqlite"], version = "*"}
+ormar = {extras = ["orjson"], version = "*"}
 fastapi-pagination = "*"
 python-multipart = "*"
 argon2-cffi = "*"
 email-validator = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+alembic = "*"
+asyncpg = "*"
+sqlalchemy = {extras = ["asyncio"], version = "*"}
+psycopg2 = "*"
 
 [dev-packages]
-uvicorn = {extras = ["standard"], version = "*"}
 pytest = "*"
 httpx = "*"
-alembic = "*"
 
 [requires]
 python_version = "3.11"
