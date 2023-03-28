@@ -63,3 +63,29 @@ class UserTokens(ormar.Model):
     user: User = ormar.ForeignKey(User)
     token: str = ormar.String(max_length=100, nullable=False, unique=True)
     expiry: datetime.datetime = ormar.DateTime(nullable=False)
+
+class Course(ormar.Model):
+    class Meta:
+        database = database
+        metadata = metadata
+    
+    id: int = ormar.Integer(primary_key=True)
+    name: str = ormar.String(max_length=100, nullable=False, unique=True)
+    descript: str = ormar.String(max_length=500)
+    
+
+class OwnerType(enum.Enum):
+    """Question type enum. Determines what type the question is."""
+    creator = 1
+    admin = 2
+    participant = 3
+
+class CourseParticipant(ormar.Model):
+    class Meta:
+        database = database
+        metadata = metadata
+    
+    id: int = ormar.Integer(primary_key=True)
+    uid: User = ormar.ForeignKey(User)
+    cid: Course = ormar.ForeignKey(Course)
+    type: int = ormar.SmallInteger(nullable=False, choices=list(QuestionType))
