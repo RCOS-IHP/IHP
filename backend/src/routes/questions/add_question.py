@@ -1,8 +1,11 @@
-from fastapi import HTTPException
+from typing import Annotated
+
+from fastapi import HTTPException, Header
 from ...models import Choice, QuestionType, Question, Answer
 from ...main import app
 from pydantic import BaseModel
 from ...utils import convert_to_json
+from ..auth.auth_common import get_user_or_401
 
 class QuestionRequest(BaseModel):
     type: QuestionType
@@ -11,13 +14,15 @@ class QuestionRequest(BaseModel):
     answer: Answer
 
 @app.post("/question", response_model=Question)
-async def add_question(question: QuestionRequest):
+async def add_question(authorization: Annotated[str, Header()], question: QuestionRequest):
     """This handles the request to add questions to the database"""
+    user = await get_user_or_401(authorization)
     question_model = Question(
         type=question.type.value,
         question_text=question.question_text,
         choices=convert_to_json(question.choices),
-        answer=convert_to_json(question.answer)
+        answer=convert_to_json(question.answer),
+        user=user
     )
 
     if question.type is QuestionType.short_answer:

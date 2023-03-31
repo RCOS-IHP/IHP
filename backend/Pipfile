@@ -16,6 +16,7 @@ alembic = "*"
 asyncpg = "*"
 sqlalchemy = {extras = ["asyncio"], version = "*"}
 psycopg2 = "*"
+async-lru = "*"
 
 [dev-packages]
 pytest = "*"
