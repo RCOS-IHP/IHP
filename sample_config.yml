@@ -1,1 +1,1 @@
-db: "sqlite:///db.sqlite"
+db: "postgresql://postgres:postgres@db"
