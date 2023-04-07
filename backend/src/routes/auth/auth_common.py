@@ -104,7 +104,7 @@ async def get_new_token(user: User | None = None, refresh_token: str | None = No
 async def get_user_or_401(authorization_header: str) -> User:
     """Get the user from the request, or raise a 401 if the user is not authenticated."""
     assert authorization_header.startswith("Bearer ")
-    access_token = access_token[7:]
+    access_token = authorization_header[7:]
     if not access_token_db.token_valid(access_token):
         raise HTTPException(status_code=401, detail="Not authenticated.")
     user_id = access_token_db.token_to_user_id_map[access_token]
