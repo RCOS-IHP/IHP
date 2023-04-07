@@ -1,6 +1,7 @@
 from enum import Enum
 from fastapi.testclient import TestClient
 from src.main import app
+from src.models import User
 
 client = TestClient(app)
 

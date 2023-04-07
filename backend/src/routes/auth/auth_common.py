@@ -1,5 +1,5 @@
 import secrets
-from fastapi import HTTPException
+from fastapi import HTTPException, Request
 from pydantic import BaseModel
 from datetime import datetime, timezone, timedelta
 from ...main import app
@@ -7,12 +7,17 @@ from ...models import User, UserTokens
 from argon2 import PasswordHasher
 from email_validator import validate_email, EmailNotValidError
 from collections import defaultdict
+from async_lru import alru_cache
 
 hasher = PasswordHasher()
 
 class Tokens(BaseModel):
     access_token: str
     refresh_token: str
+
+@alru_cache(maxsize=2**10)
+async def get_user_from_user_id(user_id: int) -> User:
+    return await User.objects.get(id=user_id)
 
 class AccessTokenDB:
     def __init__(self):
@@ -60,7 +65,7 @@ class AccessTokenDB:
             if len(tokens) == 0:
                 self.user_id_token_map.pop(user_id)
 
-app.state.access_token_db: AccessTokenDB = AccessTokenDB()
+access_token_db = app.state.access_token_db = AccessTokenDB()
 
 def generate_new_token(length: int=32) -> str:
     """Generate a new token.
@@ -84,7 +89,7 @@ async def get_new_token(user: User | None = None, refresh_token: str | None = No
         if datetime.now(tz=timezone.utc) - refresh_token_obj.expiry.astimezone(timezone.utc) < timedelta(minutes=5):
             raise HTTPException(status_code=401, detail="Expired refresh token.")
         new_token = generate_new_token()
-        app.state.access_token_db.add_token(new_token, user_id)
+        access_token_db.add_token(new_token, user_id)
         return Tokens(access_token=new_token, refresh_token=refresh_token)
     else:
         if not user:
@@ -92,9 +97,18 @@ async def get_new_token(user: User | None = None, refresh_token: str | None = No
         user_id = user.id
         new_token = generate_new_token()
         new_refresh_token = generate_new_token(length=64)
-        app.state.access_token_db.add_token(new_token, user_id)
+        access_token_db.add_token(new_token, user_id)
         await UserTokens.objects.create(user=user, token=new_refresh_token, expiry=datetime.now(tz=timezone.utc) + timedelta(days=30))
         return Tokens(access_token=new_token, refresh_token=new_refresh_token)
+    
+async def get_user_or_401(authorization_header: str) -> User:
+    """Get the user from the request, or raise a 401 if the user is not authenticated."""
+    assert authorization_header.startswith("Bearer ")
+    access_token = access_token[7:]
+    if not access_token_db.token_valid(access_token):
+        raise HTTPException(status_code=401, detail="Not authenticated.")
+    user_id = access_token_db.token_to_user_id_map[access_token]
+    return await get_user_from_user_id(user_id)
     
 def validate_and_normalize_email(email: str) -> str:
     """Validate and normalize an email.
