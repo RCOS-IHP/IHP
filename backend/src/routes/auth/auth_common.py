@@ -98,7 +98,7 @@ async def get_new_token(user: User | None = None, refresh_token: str | None = No
         new_token = generate_new_token()
         new_refresh_token = generate_new_token(length=64)
         access_token_db.add_token(new_token, user_id)
-        await UserTokens.objects.create(user=user, token=new_refresh_token, expiry=datetime.now(tz=timezone.utc) + timedelta(days=30))
+        await UserTokens.objects.create(user=user, token=new_refresh_token, expiry=datetime.now(tz=timezone.utc).replace(tzinfo=None) + timedelta(days=30))
         return Tokens(access_token=new_token, refresh_token=new_refresh_token)
     
 async def get_user_or_401(authorization_header: str) -> User:
