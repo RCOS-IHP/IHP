@@ -14,7 +14,7 @@ class QuestionRequest(BaseModel):
 async def edit_question(question_id:int, question: QuestionRequest):
     """This handles the request to add questions to the database"""
     question_model = Question(
-        id=question_id
+        id=question_id,
         type=question.type.value,
         question_text=question.question_text,
         choices=convert_to_json(question.choices),
