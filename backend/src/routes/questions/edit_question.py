@@ -12,7 +12,7 @@ class QuestionRequest(BaseModel):
 
 @app.post("/question/{question_id}", response_model=Question)
 async def edit_question(question_id:int, question: QuestionRequest):
-    """This handles the request to add questions to the database"""
+    """This handles the request to edit questions in the database"""
     question_model = Question(
         id=question_id,
         type=question.type.value,
