@@ -1,7 +1,6 @@
 FROM node:alpine as builder
 WORKDIR /app
-COPY ./* /app/
-COPY ./.* /app/
+COPY . /app/
 RUN npm ci
 RUN npm run build
 

@@ -3,7 +3,7 @@
     <app-header></app-header>
     <app-hero></app-hero>
     <app-features></app-features>
-    <ihp-footer></ihp-footer>
+    <app-footer></app-footer>
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 import AppHeader from "./components/AppHeader.vue";
 import AppHero from "./components/AppHero.vue";
 import AppFeatures from "./components/AppFeatures.vue";
-import IhpFooter from "./components/IhpFooter.vue";
+import AppFooter from "./components/AppFooter.vue";
 
 export default {
   name: "App",
@@ -19,7 +19,7 @@ export default {
     AppHeader,
     AppHero,
     AppFeatures,
-    IhpFooter,
+    AppFooter,
   },
 };
 </script>
@@ -32,4 +32,3 @@ body {
   background-color: #ffffff;
 }
 </style>
-

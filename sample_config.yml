@@ -1,1 +1,1 @@
-db: "postgresql://postgres:postgres@db"
+db: "postgresql://postgres:postgres@db/postgres"

@@ -104,55 +104,52 @@ export default {
   width: calc(100% / 3 - 20px);
 }
 
-<style scoped>
-/* ...previous CSS styles */
-
 .footer-section h4 {
   font-size: 18px;
-  margin-bottom: 15px;
+margin-bottom: 15px;
 }
 
 .footer-section ul {
-  list-style: none;
-  padding: 0;
+list-style: none;
+padding: 0;
 }
 
 .footer-section li {
-  margin-bottom: 10px;
+margin-bottom: 10px;
 }
 
 .footer-section a {
-  text-decoration: none;
-  color: #333;
+text-decoration: none;
+color: #333;
 }
 
 .footer-section a:hover {
-  color: #666;
+color: #666;
 }
 
 .footer-bottom {
-  text-align: center;
-  font-size: 14px;
-  color: #666;
+text-align: center;
+font-size: 14px;
+color: #666;
 }
 
 @media (max-width: 768px) {
-  .social-media {
-    text-align: center;
-    margin-bottom: 30px;
-  }
+.social-media {
+text-align: center;
+margin-bottom: 30px;
+}
 
-  .footer-sections {
-    flex-direction: column;
-  }
+.footer-sections {
+flex-direction: column;
+}
 
-  .footer-section {
-    width: 100%;
-    margin-bottom: 30px;
-  }
+.footer-section {
+width: 100%;
+margin-bottom: 30px;
+}
 
-  .footer-section:last-child {
-    margin-bottom: 0;
-  }
+.footer-section:last-child {
+margin-bottom: 0;
+}
 }
 </style>

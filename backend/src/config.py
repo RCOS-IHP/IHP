@@ -1,7 +1,7 @@
 from .constants import BACKEND_ROOT
 from .utils import display_fatal_error
 from yaml import safe_load
-from typing import TypedDict
+from typing import NotRequired, TypedDict
 
 config_path = BACKEND_ROOT / "config.yml"
 
@@ -17,5 +17,6 @@ except Exception as e:
 class ConfigStructure(TypedDict):
     """The structure of the config."""
     db: str
+    test_db: NotRequired[str]
 
 config: ConfigStructure = safe_load(config_text)
