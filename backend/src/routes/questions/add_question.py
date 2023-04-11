@@ -22,7 +22,7 @@ async def add_question(authorization: Annotated[str, Header()], question: Questi
         question_text=question.question_text,
         choices=convert_to_json(question.choices),
         answer=convert_to_json(question.answer),
-        user=user
+        creator=user
     )
 
     if question.type is QuestionType.short_answer:
