@@ -3,7 +3,5 @@ An open source homework tool for professors and students similar to Pearson Mast
 
 ## Usage
 
-Use `npm run dev` from the frontend folder to run the frontend for development.
-
-From the backend folder, use `pipenv run dev` to run the api, and `pipenv run test` to run the Pytest tests.
-If the correct packages are not installed, run `pipenv sync --dev`.
+Run IHP with `docker compose up`. When first installed and after any changes, you will need to first run `docker compose build`.
+Backend tests can be run using the commands `pipenv sync` and then `pipenv test` from the backend directory. 

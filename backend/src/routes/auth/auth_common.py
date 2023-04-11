@@ -30,12 +30,17 @@ class AccessTokenDB:
         # Make it so that every token is valid for 1 hour from the time it was created.
         self.tokens[token] = datetime.now(tz=timezone.utc) + timedelta(hours=1)
         self.user_id_token_map[user_id].append(token)
+        self.token_to_user_id_map[token] = user_id
+        assert token in self.tokens, "Token was not added to the token list."
+        assert user_id in self.user_id_token_map, "User id was not added to the user id list."
+        assert token in self.user_id_token_map[user_id], "Token was not added to the user id list."
+        assert token in self.token_to_user_id_map, "User id was not added to the token to user id map."
 
     def token_valid(self, token: str):
         exists = token in self.tokens
         if exists:
             # If the token exists, checks that there is less than 10 seconds left until it expires.
-            time_valid = datetime.now(tz=timezone.utc) - self.tokens[token] > timedelta(seconds=10)
+            time_valid = self.tokens[token] - datetime.now(tz=timezone.utc) > timedelta(seconds=10)
             if time_valid:
                 return True
             else:
