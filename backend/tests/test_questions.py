@@ -5,8 +5,9 @@ from src.routes.questions.add_question import QuestionRequest
 class TestQuestions:
     login_cached_access_token = None
 
-    def saturate_login(self):
-        if not self.login_cached_access_token:
+    @classmethod
+    def saturate_login(cls):
+        if not cls.login_cached_access_token:
             response = client.post("/auth/login", json={"username": "_test", "password": "asdfghjkl"})
             if response.status_code == 400:
                 response = client.post("/auth/signup", json={"email": "test@test.com", "username": "_test", "password": "asdfghjkl"})
@@ -14,7 +15,7 @@ class TestQuestions:
             else:
                 assert response.status_code == 200
             json_response = response.json()
-            self.login_cached_access_token = json_response["access_token"]
+            cls.login_cached_access_token = json_response["access_token"]
 
 
     def test_add_multiple_choice_question(self):
@@ -23,9 +24,9 @@ class TestQuestions:
         choices = [Choice(text="Choice 1", choice_id=1), Choice(text="Choice 2", choice_id=2), Choice(text="Choice 3", choice_id=3), Choice(text="Choice 4", choice_id=4)]
         answer = Answer(correct_choice_ids=[3])
         question_data = QuestionRequest(type=QuestionType.multiple_choice, question_text=question_text, choices=choices, answer=answer)
-        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.login_cached_access_token}"})
-        assert response.status_code == 200
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {TestQuestions.login_cached_access_token}"})
         json_response = response.json()
+        assert response.status_code == 200
         assert json_response["type"] == QuestionType.multiple_choice.value
         assert json_response["question_text"] == question_text
         assert json_response["choices"] == [model.dict() for model in choices]
@@ -37,7 +38,7 @@ class TestQuestions:
         question_text = "Sample **Question**?"
         answer = Answer(text="Answer")
         question_data = QuestionRequest(type=QuestionType.short_answer, question_text=question_text, choices=None, answer=answer)
-        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.login_cached_access_token}"})
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {TestQuestions.login_cached_access_token}"})
         assert response.status_code == 200
         json_response = response.json()
         assert json_response["type"] == QuestionType.short_answer.value
@@ -51,7 +52,7 @@ class TestQuestions:
         question_text = "Sample **Question**?"
         answer = Answer(text="Answer")
         question_data = QuestionRequest(type=QuestionType.short_answer, question_text=question_text, choices=None, answer=answer)
-        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.login_cached_access_token}"})
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {TestQuestions.login_cached_access_token}"})
         json_response = response.json()
 
         remove_response = client.delete("/question/%d" % json_response["id"])
@@ -66,7 +67,7 @@ class TestQuestions:
         choices = [Choice(text="Choice 1", choice_id=1), Choice(text="Choice 2", choice_id=2), Choice(text="Choice 3", choice_id=3), Choice(text="Choice 4", choice_id=4)]
         answer = Answer(correct_choice_ids=[1,3])
         question_data = QuestionRequest(type=QuestionType.select_multiple, question_text=question_text, choices=choices, answer=answer)
-        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.login_cached_access_token}"})
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {TestQuestions.login_cached_access_token}"})
         assert response.status_code == 200
         json_response = response.json()
         assert json_response["type"] == QuestionType.select_multiple.value
@@ -81,7 +82,7 @@ class TestQuestions:
         choices = [Choice(text="Choice 1", choice_id=1), Choice(text="Choice 2", choice_id=2), Choice(text="Choice 3", choice_id=3), Choice(text="Choice 4", choice_id=4)]
         answer = Answer(correct_choice_ids=[1,3])
         question_data = QuestionRequest(type=QuestionType.select_one, question_text=question_text, choices=choices, answer=answer)
-        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.login_cached_access_token}"})
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {TestQuestions.login_cached_access_token}"})
         assert response.status_code == 200
         json_response = response.json()
         assert json_response["type"] == QuestionType.select_one.value
@@ -96,7 +97,7 @@ class TestQuestions:
         choices = [Choice(text="Choice 1", choice_id=1), Choice(text="Choice 2", choice_id=2), Choice(text="Choice 3", choice_id=3), Choice(text="Choice 4", choice_id=4)]
         answer = Answer(text="Answer")
         question_data = QuestionRequest(type=QuestionType.short_answer, question_text=question_text, choices=choices, answer=answer)
-        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.login_cached_access_token}"})
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {TestQuestions.login_cached_access_token}"})
         assert response.status_code == 400
         json_response = response.json()
         assert json_response["detail"] == "Short answer questions do not need choices"
@@ -106,7 +107,7 @@ class TestQuestions:
         question_text = "Sample **Question**?"
         answer = Answer(correct_choice_ids=[3])
         question_data = QuestionRequest(type=QuestionType.multiple_choice, question_text=question_text, choices=None, answer=answer)
-        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.login_cached_access_token}"})
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {TestQuestions.login_cached_access_token}"})
         assert response.status_code == 400
         json_response = response.json()
         assert json_response["detail"] == "Choices must be provided for multiple choice questions"
@@ -117,7 +118,7 @@ class TestQuestions:
         choices = [Choice(text="Choice 1", choice_id=1), Choice(text="Choice 2", choice_id=2), Choice(text="Choice 3", choice_id=3), Choice(text="Choice 4", choice_id=4)]
         answer = Answer(text="Answer")
         question_data = QuestionRequest(type=QuestionType.multiple_choice, question_text=question_text, choices=choices, answer=answer)
-        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.login_cached_access_token}"})
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {TestQuestions.login_cached_access_token}"})
         assert response.status_code == 400
         json_response = response.json()
         assert json_response["detail"] == "Answer format must be a list of integers"
@@ -128,7 +129,7 @@ class TestQuestions:
         choices = [Choice(text="Choice 1", choice_id=1), Choice(text="Choice 2", choice_id=2), Choice(text="Choice 3", choice_id=3), Choice(text="Choice 4", choice_id=4)]
         answer = Answer(correct_choice_ids=[1,4])
         question_data = QuestionRequest(type=QuestionType.multiple_choice, question_text=question_text, choices=choices, answer=answer)
-        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.login_cached_access_token}"})
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {TestQuestions.login_cached_access_token}"})
         assert response.status_code == 400
         json_response = response.json()
         assert json_response["detail"] == "Answers list must have a length of 1"
@@ -139,7 +140,7 @@ class TestQuestions:
         choices = [Choice(text="Choice 1", choice_id=1), Choice(text="Choice 2", choice_id=2), Choice(text="Choice 3", choice_id=3), Choice(text="Choice 4", choice_id=4)]
         answer = Answer(correct_choice_ids=[1])
         question_data = QuestionRequest(type=QuestionType.select_multiple, question_text=question_text, choices=choices, answer=answer)
-        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.login_cached_access_token}"})
+        response = client.post("/question", content=question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {TestQuestions.login_cached_access_token}"})
         assert response.status_code == 400
         json_response = response.json()
         assert json_response["detail"] == "For this question type, there must be multiple correct answers"
