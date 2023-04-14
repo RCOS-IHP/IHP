@@ -2,7 +2,7 @@
   
 	import { ref } from 'vue'
 	import { reactive } from 'vue'
-  import Header from "./Header.vue"
+  import Header from "./HeaderElement.vue"
   import LoginField from "./LoginField.vue"
 </script>
 

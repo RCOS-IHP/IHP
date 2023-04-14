@@ -3,7 +3,7 @@
 	import { ref } from 'vue'
 	import { reactive } from 'vue'
   
-  import QuestionElement from "./Question.vue"
+  import QuestionElement from "./QuestionElement.vue"
 </script>
 
 <template>
