@@ -3,7 +3,6 @@ import databases
 import sqlalchemy
 from fastapi import FastAPI
 from src.config import config
-from fastapi_pagination import add_pagination
 import os
 
 import ormar
@@ -23,6 +22,5 @@ app = FastAPI(lifespan=lifespan)
 metadata = sqlalchemy.MetaData()
 database = databases.Database(config['db' if not bool(os.environ.get('TESTING')) else 'test_db'])
 app.state.database = database
-add_pagination(app)
 
 import src.routes
