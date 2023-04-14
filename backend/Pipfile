@@ -7,7 +7,6 @@ name = "pypi"
 fastapi = "*"
 pyyaml = "*"
 ormar = {extras = ["orjson"], version = "*"}
-fastapi-pagination = "*"
 python-multipart = "*"
 argon2-cffi = "*"
 email-validator = "*"
