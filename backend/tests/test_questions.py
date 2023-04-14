@@ -155,7 +155,7 @@ class TestQuestions:
         new_question_text = "Question 2"
         new_answer = Answer(text="Answer 2")
         new_question_data = QuestionRequest(type=QuestionType.short_answer, question_text=new_question_text, choices=None, answer=new_answer)
-        edit_response = client.post("/question"+id, content=new_question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.login_cached_access_token}"})
+        edit_response = client.post(f"/question/{id}", content=new_question_data.json(encoder=encoder_for_enums), headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.login_cached_access_token}"})
         assert edit_response.status_code == 200
         json_edit_response = edit_response.json()
         assert json_edit_response["question_text"] == new_question_text
