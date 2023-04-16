@@ -109,7 +109,6 @@ class Course(ormar.Model):
     name: str = ormar.String(max_length=100, nullable=False, unique=True)
     descript: str = ormar.String(max_length=500)
     
-
 class OwnerType(enum.Enum):
     """Question type enum. Determines what type the question is."""
     creator = 1

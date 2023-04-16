@@ -13,7 +13,7 @@ class CourseRequest(BaseModel):
     name: str
     description: str
 
-@app.get("/course", response_model=Course)
+@app.post("/course", response_model=Course)
 async def add_course(authorization: Annotated[str, Header()], course: CourseRequest):
     user = await get_user_or_401(authorization)
 
