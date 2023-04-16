@@ -44,4 +44,5 @@ async def add_course_participant(authorization: Annotated[str, Header()], userId
     )
     participant.save()
     add_course_participant_audit_log(participant, added, adder, "Manually added")
+    return participant
 

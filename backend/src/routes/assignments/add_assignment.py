@@ -1,52 +1,45 @@
-#At some point add user permissions so not everybody can just make a course
+#At some point add user permissions so not everybody can just make a assignment
 from typing import Annotated
 from datetime import timedelta, datetime
 
 from fastapi import HTTPException, Header
-from ...models import User, AuditLog, Course, CourseParticipant, OwnerType
+from ...models import User, AuditLog, Assignment, Course, OwnerType
 from ...main import app
 from pydantic import BaseModel
 from ...utils import convert_to_json
 from ..auth.auth_common import get_user_or_401
 
-class CourseRequest(BaseModel):
+class AssignmentRequest(BaseModel):
     name: str
     description: str
 
-@app.post("/course", response_model=Course)
-async def add_course(authorization: Annotated[str, Header()], course: CourseRequest):
+@app.post("/course/{course_id}/add_assignment", response_model=Course)
+async def add_course(authorization: Annotated[str, Header()], assignment: AssignmentRequest):
     user = await get_user_or_401(authorization)
 
     #Add some check here to make sure that the user has the authorization to 
     #make courses
     #FIXME
-    course_model = Course(
-        name= course.name,
-        descript= course.description
+    assignment_model = Assignment(
+        name= assignment.name,
+        descript= assignment.description
     )
-    course_model.save()
-    add_course_audit_log(course_model, user)
+    assignment_model.save()
+    add_assignment_audit_log(assignment_model, user)
+    return assignment_model
+    
 
-    participant = CourseParticipant(
-        uid = user,
-        cid = course_model,
-        type= OwnerType.creator
-    )
-    participant.save()
-    add_course_participant_audit_log(participant, user, user, "Course was created")
-    return course_model
-
-async def add_course_audit_log(course: Course, user: User):
+async def add_assignment_audit_log(assignment: Assignment, user: User):
     event_data = {
-        "course_name": course.name,
-        "course_description": course.descript
+        "assignment_name": assignment.name,
+        "assignment_description": assignment.description
     }
     auditAddition = AuditLog(
         causing_user = user,
         #I don't like this, it wastes a lot of space. May be trimmed down
         event_data  = event_data,
-        event_type = "add_course",
-        effected_id = course.id,
+        event_type = "add_assignment",
+        effected_id = assignment.id,
         created_on = datetime.now(),
         expiry     = datetime.utcnow() + timedelta(days=365)
     )

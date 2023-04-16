@@ -5,6 +5,11 @@ from .questions.list_questions import list_questions
 from .questions.edit_question import edit_question
 from .auth.login import login
 from .auth.signup import signup
+from .courses.add_course import add_course
+from .courses.get_course import get_course
+from .courses.add_course_participant import add_course_participant
+
+
 
 routes = [
     add_question,
@@ -14,4 +19,7 @@ routes = [
     edit_question,
     login,
     signup,
+    add_course,
+    get_course,
+    add_course_participant
 ]
