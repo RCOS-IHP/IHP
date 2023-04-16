@@ -1,4 +1,5 @@
 <template>
+  
   <div id="app">
     <app-header></app-header>
     <app-hero></app-hero>
