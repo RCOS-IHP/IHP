@@ -1,7 +1,9 @@
 from typing import Annotated
+from datetime import timedelta, datetime
+
 
 from fastapi import HTTPException, Header
-from ...models import Choice, QuestionType, Question, Answer
+from ...models import Choice, QuestionType, Question, Answer, User, AuditLog
 from ...main import app
 from pydantic import BaseModel
 from ...utils import convert_to_json
@@ -41,5 +43,24 @@ async def add_question(authorization: Annotated[str, Header()], question: Questi
                 raise HTTPException(status_code=400, detail="For this question type, there must be multiple correct answers")
 
     await question_model.save()
+    add_question_audit_log(question_model, user)
     return question_model
 
+def add_question_audit_log(question: Question, user: User):
+    print(question)
+    event_data = {
+        "question_text": question.question_text,
+        "choices": convert_to_json(question.choices),
+        "answer": convert_to_json(question.answer),
+        "type": question.type
+    }
+    auditAddition = AuditLog(
+        causing_user = user,
+        #I don't like this, it wastes a lot of space. May be trimmed down
+        event_data  = event_data,
+        event_type = "add_question",
+        effected_id = question.id,
+        created_on = datetime.now(),
+        expiry     = datetime.utcnow() + timedelta(days=365)
+    )
+    auditAddition.save()

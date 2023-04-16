@@ -93,6 +93,7 @@ class AuditLog(ormar.Model):
         metadata = metadata
 
     event_id: int = ormar.BigInteger(primary_key=True)
+    effected_id: int = ormar.BigInteger(nullable=True)
     causing_user: User | None = ormar.ForeignKey(User, nullable=True)
     event_type: str = ormar.String(max_length=100, nullable=False)
     event_data: dict | None = ormar.JSON(nullable=True)
