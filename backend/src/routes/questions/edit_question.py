@@ -1,4 +1,5 @@
 from typing import Annotated
+from datetime import timedelta, datetime
 
 from fastapi import HTTPException, Header
 from ...models import Choice, QuestionType, Question, Answer
@@ -40,7 +41,6 @@ async def edit_question(authorization: Annotated[str, Header()], question_id:int
         else:
             if len(question.answer.correct_choice_ids) == 1:
                 raise HTTPException(status_code=400, detail="For this question type, there must be multiple correct answers")
-
     await question_model.update()
     return question_model
 
