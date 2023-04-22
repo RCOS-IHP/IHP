@@ -1,42 +1,44 @@
 <template>
   <footer class="ihp-footer">
     <div class="container">
-      <div class="social-media">
-        <h4>Connect with us</h4>
-        <ul>
-          <li><a href="#" target="_blank" rel="noopener noreferrer"><font-awesome-icon :icon="['fab', 'facebook-f']" /></a></li>
-          <li><a href="#" target="_blank" rel="noopener noreferrer"><font-awesome-icon :icon="['fab', 'twitter']" /></a></li>
-          <li><a href="#" target="_blank" rel="noopener noreferrer"><font-awesome-icon :icon="['fab', 'linkedin-in']" /></a></li>
-          <li><a href="#" target="_blank" rel="noopener noreferrer"><font-awesome-icon :icon="['fab', 'youtube']" /></a></li>
-        </ul>
-      </div>
-      <div class="footer-sections">
-        <div class="footer-section">
-          <h4>About IHP</h4>
+      <div class="footer-content">
+        <div class="social-media">
+          <h4>Connect with us</h4>
           <ul>
-            <li><a href="#">Company Information</a></li>
-            <li><a href="#">Featured Products</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">News and Events</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer"><font-awesome-icon :icon="['fab', 'facebook-f']" /></a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer"><font-awesome-icon :icon="['fab', 'twitter']" /></a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer"><font-awesome-icon :icon="['fab', 'linkedin-in']" /></a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer"><font-awesome-icon :icon="['fab', 'youtube']" /></a></li>
           </ul>
         </div>
-        <div class="footer-section">
-          <h4>Customer Support</h4>
-          <ul>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Support Services</a></li>
-            <li><a href="#">FAQs</a></li>
-            <li><a href="#">Accessibility</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Cookie Policy</a></li>
-            <li><a href="#">Terms of Use</a></li>
-            <li><a href="#">Permissions</a></li>
-          </ul>
+        <div class="footer-sections">
+          <div class="footer-section">
+            <h4>About IHP</h4>
+            <ul>
+              <li><a href="#">Company Information</a></li>
+              <li><a href="#">Featured Products</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">News and Events</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Customer Support</h4>
+            <ul>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Support Services</a></li>
+              <li><a href="#">FAQs</a></li>
+              <li><a href="#">Accessibility</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Cookie Policy</a></li>
+              <li><a href="#">Terms of Use</a></li>
+              <li><a href="#">Permissions</a></li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="footer-bottom">
@@ -52,10 +54,11 @@ export default {
 };
 </script>
 
+
 <style scoped>
 .ihp-footer {
   background-color: #f8f8f8;
-  padding: 30px 0;
+  padding: 40px 0;
   font-family: Arial, sans-serif;
 }
 
@@ -65,13 +68,18 @@ export default {
   padding: 0 15px;
 }
 
+.footer-content {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .social-media {
-  margin-bottom: 20px;
+  margin-right: 150px;
 }
 
 .social-media h4 {
-  font-size: 18px;
-  margin-bottom: 15px;
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 
 .social-media ul {
@@ -81,13 +89,13 @@ export default {
 }
 
 .social-media li {
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 .social-media a {
   text-decoration: none;
   color: #333;
-  font-size: 24px;
+  font-size: 28px;
 }
 
 .social-media a:hover {
@@ -97,7 +105,7 @@ export default {
 .footer-sections {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 30px;
+  flex-grow: 1;
 }
 
 .footer-section {
@@ -105,51 +113,58 @@ export default {
 }
 
 .footer-section h4 {
-  font-size: 18px;
-margin-bottom: 15px;
+  font-size: 22px;
+  margin-bottom: 20px;
 }
 
 .footer-section ul {
-list-style: none;
-padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .footer-section li {
-margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .footer-section a {
-text-decoration: none;
-color: #333;
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
 }
 
 .footer-section a:hover {
-color: #666;
+  color: #666;
 }
 
 .footer-bottom {
-text-align: center;
-font-size: 14px;
-color: #666;
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+  margin-top: 30px;
 }
 
 @media (max-width: 768px) {
-.social-media {
-text-align: center;
-margin-bottom: 30px;
-}
+  .footer-content {
+    flex-direction: column;
+  }
 
-.footer-sections {
-flex-direction: column;
-}
+  .social-media {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-right: 0;
+  }
 
-.footer-section {
-width: 100%;
-margin-bottom: 30px;
-}
+  .footer-sections {
+    flex-direction: column;
+  }
 
-.footer-section:last-child {
-margin-bottom: 0;
-}
+  .footer-section {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .footer-section:last-child {
+    margin-bottom: 0;
+  }
 }
 </style>

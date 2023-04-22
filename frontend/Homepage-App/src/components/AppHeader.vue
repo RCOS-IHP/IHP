@@ -10,6 +10,10 @@
         <a href="#">Resources</a>
         <a href="#">Contact</a>
       </div>
+      <div class="auth-buttons">
+        <a href="#" class="login-btn">Login</a>
+        <a href="#" class="signup-btn">Sign Up</a>
+      </div>
     </nav>
   </header>
 </template>
@@ -48,5 +52,35 @@ nav {
 
 .menu-items a:hover {
   text-decoration: underline;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.login-btn,
+.signup-btn {
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 4px;
+}
+
+.login-btn {
+  color: #595FD9;
+  background-color: white;
+  margin-right: 10px;
+  border: 2px solid #595FD9;
+}
+
+.signup-btn {
+  color: white;
+  background-color: #595FD9;
+}
+
+.login-btn:hover,
+.signup-btn:hover {
+  opacity: 0.8;
 }
 </style>
