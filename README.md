@@ -4,4 +4,4 @@ An open source homework tool for professors and students similar to Pearson Mast
 ## Usage
 
 Run IHP with `docker compose up`. When first installed and after any changes, you will need to first run `docker compose build`.
-Backend tests can be run using the commands `pipenv sync` and then `pipenv test` from the backend directory. 
+Backend tests can be run using the commands `pipenv sync --dev` and then `pipenv test` from the backend directory. 
