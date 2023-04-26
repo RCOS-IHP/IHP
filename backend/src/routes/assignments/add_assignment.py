@@ -14,7 +14,7 @@ class AssignmentRequest(BaseModel):
     description: str
 
 @app.post("/course/{course_id}/add_assignment", response_model=Course)
-async def add_course(authorization: Annotated[str, Header()], assignment: AssignmentRequest):
+async def add_assignment(authorization: Annotated[str, Header()], assignment: AssignmentRequest):
     user = await get_user_or_401(authorization)
 
     #Add some check here to make sure that the user has the authorization to 
