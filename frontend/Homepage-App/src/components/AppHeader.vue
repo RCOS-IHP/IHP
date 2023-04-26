@@ -7,24 +7,30 @@
       <div class="menu-items">
         <a href="#">Courses</a>
         <a href="#">Pricing</a>
-        <a href="#">Resources</a>
-        <a href="#">Contact</a>
+        <router-link to="/aboutus">AboutUs</router-link>
       </div>
-      <div class="auth-buttons">
-        <a href="#" class="login-btn">Login</a>
-        <a href="#" class="signup-btn">Sign Up</a>
+      <div class="buttons">
+        <button class="login-btn">Login</button>
+        <button class="signup-btn">Sign Up</button>
       </div>
     </nav>
   </header>
 </template>
-
 <script>
 export default {
   name: "AppHeader",
 };
 </script>
-
 <style scoped>
+@keyframes hover {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
 .app-header {
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -44,43 +50,46 @@ nav {
   font-weight: bold;
 }
 
-.menu-items a {
+.logo:hover {
+  animation: hover 2s infinite;
+}
+
+.menu-items a,
+.router-link-exact-active {
   color: #595FD9;
   margin-left: 20px;
   text-decoration: none;
+  transition: color 0.3s;
 }
 
-.menu-items a:hover {
+.menu-items a:hover,
+.router-link-exact-active:hover {
   text-decoration: underline;
+  color: #3a3fd5;
+  animation: hover 2s infinite;
 }
 
-.auth-buttons {
+.buttons {
   display: flex;
-  align-items: center;
 }
 
 .login-btn,
 .signup-btn {
-  text-decoration: none;
-  font-weight: bold;
-  padding: 10px 15px;
-  border-radius: 4px;
-}
-
-.login-btn {
-  color: #595FD9;
-  background-color: white;
-  margin-right: 10px;
-  border: 2px solid #595FD9;
-}
-
-.signup-btn {
-  color: white;
   background-color: #595FD9;
+  color: #ffffff;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s;
 }
 
 .login-btn:hover,
 .signup-btn:hover {
-  opacity: 0.8;
+  background-color: #3a3fd5;
+  animation: hover 2s infinite;
 }
 </style>

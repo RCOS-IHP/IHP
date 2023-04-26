@@ -9,6 +9,37 @@
         </p>
         <img class="students-image" src="https://images.unsplash.com/photo-1598576065506-a1a50132daa8" alt="Group of students" />
       </div>
+      <div class="timeline-container container">
+        <h2>Our Milestones</h2>
+        <ul class="timeline">
+          <li>
+            <span>2015</span> - IHP was founded
+          </li>
+          <li>
+            <span>2016</span> - First online course released
+          </li>
+          <li>
+            <span>2017</span> - Reached 10,000 students
+          </li>
+          <li>
+            <span>2018</span> - Expanded to new subject areas
+          </li>
+          <li>
+            <span>2019</span> - Launched mobile app
+          </li>
+          <li>
+            <span>2020</span> - Partnered with leading universities
+          </li>
+        </ul>
+        <h2>Core Values</h2>
+        <ul class="core-values">
+          <li>Quality Education</li>
+          <li>Accessibility</li>
+          <li>Innovation</li>
+          <li>Collaboration</li>
+          <li>Commitment to Excellence</li>
+        </ul>
+      </div>
     </div>
     <ihp-footer></ihp-footer>
   </div>
@@ -54,5 +85,50 @@ export default {
   width: 100%;
   max-height: 500px;
   object-fit: cover;
+}
+
+.timeline-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+  padding-bottom: 50px;
+}
+
+.timeline-container h2 {
+  font-size: 30px;
+  margin: 40px 0;
+}
+
+.timeline {
+  list-style-type: none;
+  padding: 0;
+}
+
+.timeline li {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.timeline li span {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.core-values {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.core-values li {
+  font-size: 18px;
+  padding: 10px;
+  border: 1px solid #595FD9;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  width: calc(33% - 10px);
+  text-align: center;
 }
 </style>
