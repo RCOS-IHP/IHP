@@ -23,4 +23,13 @@ instructors, we want to allow more personalized input on assignments as well
 as making it very easy to post create and post assignments, view class 
 statistics, and view an individual's progress.
 
+## Webpage
+
+The webpage aims to be a one-stop solution for students, educators, and administrators alike. It combines essential elements like course materials, assignments, quizzes, and collaborative tools with an interactive and user-friendly interface. In addition, we incorporate search and filtering options to help users find relevant content quickly and effortlessly. We also integrate social sharing and community features, allowing users to interact, discuss, and collaborate with their peers, fostering a sense of community and collaborative learning.
+
+## In App View
+
+The in-app view focuses on delivering a seamless learning experience within the web app environment. Using the latest web technologies, we ensure smooth performance and an intuitive user interface tailored to the specific platform. The web app offers easy access to course materials, allowing users to continue learning with a simple internet connection.
+
+
 
