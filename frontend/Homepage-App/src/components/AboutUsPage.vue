@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-header></app-header>
+    <AppHeader />
     <div class="about-us">
       <div class="about-us-content container">
         <h1>About Us</h1>
@@ -41,13 +41,13 @@
         </ul>
       </div>
     </div>
-    <ihp-footer></ihp-footer>
+    <IhpFooter />
   </div>
 </template>
 
 <script>
-import AppHeader from "./components/AppHeader.vue";
-import IhpFooter from "./components/IhpFooter.vue";
+import AppHeader from "@/components/AppHeader.vue";
+import IhpFooter from "@/components/IhpFooter.vue";
 
 export default {
   name: "AboutUs",

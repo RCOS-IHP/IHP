@@ -8,6 +8,7 @@
         <a href="#">Courses</a>
         <a href="#">Pricing</a>
         <router-link to="/aboutus">AboutUs</router-link>
+        <a href="#">Contact</a>
       </div>
       <div class="buttons">
         <button class="login-btn">Login</button>
