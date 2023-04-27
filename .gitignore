@@ -30,3 +30,7 @@ __pycache__/
 config.yml
 test.db
 postgres-data
+
+#test file I made
+amog.sh
+dockerStuff.bat
