@@ -46,7 +46,7 @@ async def add_question(authorization: Annotated[str, Header()], question: Questi
     add_question_audit_log(question_model, user)
     return question_model
 
-def add_question_audit_log(question: Question, user: User):
+async def add_question_audit_log(question: Question, user: User):
     print(question)
     event_data = {
         "question_text": question.question_text,

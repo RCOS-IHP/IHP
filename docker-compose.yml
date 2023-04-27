@@ -10,7 +10,7 @@ services:
             POSTGRES_PASSWORD: postgres
         restart: always
         ports:
-            - "5432:5432"
+            - "5000:5432"
         healthcheck:
             test: ["CMD", "pg_isready", "-U", "postgres", "-h", "localhost", "-p", "5432"]
             interval: 1m30s

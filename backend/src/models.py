@@ -109,7 +109,6 @@ class Course(ormar.Model):
     name: str = ormar.String(max_length=100, nullable=False, unique=True)
     descript: str = ormar.String(max_length=500)
     
-
 class OwnerType(enum.Enum):
     """Question type enum. Determines what type the question is."""
     creator = 1
@@ -124,4 +123,29 @@ class CourseParticipant(ormar.Model):
     id: int = ormar.Integer(primary_key=True)
     uid: User = ormar.ForeignKey(User)
     cid: Course = ormar.ForeignKey(Course)
-    type: int = ormar.SmallInteger(nullable=False, choices=list(QuestionType))
+    type: int = ormar.SmallInteger(nullable=False, choices=list(OwnerType))
+
+class Assignment(ormar.Model):
+    class Meta:
+        database = database
+        metadata = metadata
+    
+    id: int = ormar.Integer(primary_key=True)
+    cid: Course = ormar.ForeignKey(Course)
+    name: str = ormar.String(max_length=100, nullable=False)
+    description: str = ormar.String(nullable=False, max_length=500)
+    dueDate: datetime.datetime = ormar.DateTime(nullable=False)
+
+class AssignmentMember(ormar.Model): 
+    class Meta:
+        database = database
+        metadata = metadata
+    
+    id: int = ormar.Integer(primary_key=True)
+    aid: Assignment = ormar.ForeignKey(Assignment)
+    qid: Question   = ormar.ForeignKey(Question)
+    name: str = ormar.String(max_length=100, nullable=False)
+    description: str = ormar.String(nullable=False, max_length=500)
+    dueDate: datetime.datetime = ormar.DateTime(nullable=False)
+    pointValue: int = ormar.Integer(nullable=True)
+
