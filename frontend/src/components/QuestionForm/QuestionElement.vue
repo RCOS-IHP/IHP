@@ -8,7 +8,6 @@
     questionType: Number,
     choices: Array,
     questionId: Number,
-    answerIndexes: Array
 	});
   
 	const questionTypes = ["multiple_choice", "short_answer", "select_multiple"];
@@ -17,8 +16,7 @@
     type: questionTypes[props.questionType],
     choices: props.choices,
     id: "question" + props.questionId,
-    text: props.questionText,
-    answers: props.answerIndexes
+    text: props.questionText
   });
 
   
