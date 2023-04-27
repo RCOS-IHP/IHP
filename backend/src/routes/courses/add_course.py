@@ -24,15 +24,14 @@ async def add_course(authorization: Annotated[str, Header()], course: CourseRequ
         name= course.name,
         descript= course.description
     )
-    course_model.save()
+    await course_model.save()
     add_course_audit_log(course_model, user)
-
     participant = CourseParticipant(
         uid = user,
         cid = course_model,
         type= OwnerType.creator
     )
-    participant.save()
+    await participant.save()
     add_course_participant_audit_log(participant, user, user, "Course was created")
     return course_model
 
@@ -50,7 +49,7 @@ async def add_course_audit_log(course: Course, user: User):
         created_on = datetime.now(),
         expiry     = datetime.utcnow() + timedelta(days=365)
     )
-    auditAddition.save()
+    await auditAddition.save()
 
 
 async def add_course_participant_audit_log(course: CourseParticipant, userAdded: User, userAdder: User, cause: str):
@@ -77,4 +76,4 @@ async def add_course_participant_audit_log(course: CourseParticipant, userAdded:
         created_on = datetime.now(),
         expiry     = datetime.utcnow() + timedelta(days=365)
     )
-    auditAddition.save()
+    await auditAddition.save()

@@ -123,7 +123,7 @@ class CourseParticipant(ormar.Model):
     id: int = ormar.Integer(primary_key=True)
     uid: User = ormar.ForeignKey(User)
     cid: Course = ormar.ForeignKey(Course)
-    type: int = ormar.SmallInteger(nullable=False, choices=list(QuestionType))
+    type: int = ormar.SmallInteger(nullable=False, choices=list(OwnerType))
 
 class Assignment(ormar.Model):
     class Meta:
